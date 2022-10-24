@@ -110,6 +110,7 @@
   <div id="state-legend" class="legend">
     <h4>Year and Model</h4>
     <div><span style="background-color: #ffb301"></span>2020 - V1.7</div>
+    <div><span style="background-color: #00a5eb"></span>2019 - Official Data</div>
     
   </div>
   <script>
@@ -118,14 +119,32 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/satellite-streets-v11',
       center: [-82.206, 33.785],
-      zoom: 5,
+      zoom: 5.5,
       projection: {
         name: 'mercator',
 
       },
       hash: true
     });
+    
     map.on('load', function () {
+
+      map.addSource('maptiler-sentinel', {
+        'type': 'raster',
+        'tiles': [
+          'https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=LTYjFQeomRfetQbTCERa'
+        ],
+        'tileSize': 256,
+        'attribution': '&copy; MapTiler'
+      });
+      map.addLayer({
+        'id': 'maptiler-layer',
+        'type': 'raster',
+        'source': 'maptiler-sentinel',
+        'paint': {},
+        'layout': { 'visibility': 'visible' }
+      },
+      );
       map.addSource('AL-data', {
         type: 'geojson',
         'tolerance': 0.05,
@@ -158,7 +177,29 @@
             'line-width': 1.5,
           }
         });
-
+      map.addSource('NC-official-data', {
+        type: 'geojson',
+        'tolerance': 0.05,
+        data: 'https://raw.githubusercontent.com/earthrise-media/conv-detector/main/data/sampling_locations/cafos/dwr_PoultrySwine_1_31_2019_nc_data.geojson'
+      });
+      map.addLayer(
+        {
+          'id': 'nc-official',
+          'type': 'circle',
+          'source': 'NC-official-data',
+          'paint': {
+            'circle-color': '#00a5eb',
+            'circle-opacity': 0.6,
+            'circle-radius': {
+              'base': 1.75,
+              'stops': [
+                [5, 1.5],
+                [12, 4],
+                [22, 180]
+              ]
+            },
+          }
+        });
       map.addSource('NC-data', {
         type: 'geojson',
         'tolerance': 0.05,
@@ -176,21 +217,7 @@
           }
         });
       
-      map.addSource('NC-official-data', {
-        type: 'geojson',
-        'tolerance': 0.05,
-        data: 'https://raw.githubusercontent.com/earthrise-media/conv-detector/main/data/sampling_locations/dwr_PoultrySwine_1_31_2019_nc_data.geojson'
-      });
-      map.addLayer(
-        {
-          'id': 'nc-official',
-          'type': 'point',
-          'source': 'NC-official-data',
-          'paint': {
-            'point-color': '#ffb301',
-            'point-opacity': 0.8,
-          }
-        });
+      
 
       map.addSource('NC-boundary-data', {
         type: 'geojson',
@@ -208,24 +235,6 @@
             'line-width': 1.5,
           }
         });
-      
-      map.addSource('maptiler-sentinel', {
-        'type': 'raster',
-        'tiles': [
-          'https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=LTYjFQeomRfetQbTCERa'
-        ],
-        'tileSize': 256,
-        'attribution': '&copy; MapTiler'
-      });
-      map.addLayer({
-        'id': 'maptiler-layer',
-        'type': 'raster',
-        'source': 'maptiler-sentinel',
-        'paint': {},
-        'layout': { 'visibility': 'none' }
-      },
-        'Amazon Stroke'
-      );
 
       map.on('click', function (e) {
         var coordinates = e.lngLat;
@@ -255,9 +264,9 @@
       link.textContent = q;
       link.idLayer = id;
       if (i === 0) {
-        link.className = 'active';
-      } else {
         link.className = '';
+      } else {
+        link.className = 'active';
       };
       document.getElementById('menu').appendChild(link);
     };
@@ -269,8 +278,6 @@
         satDefault.className = 'active';
         satOther.className = '';
         map.setLayoutProperty(satOther.idLayer, 'visibility', 'none');
-        map.setLayoutProperty('BW Satellite', 'visibility', 'visible');
-        map.setPaintProperty('Amazon Hole', 'fill-opacity', 1.0);
       }
     };
     satOther.onclick = function (e) {
@@ -278,8 +285,6 @@
         satOther.className = 'active';
         satDefault.className = '';
         map.setLayoutProperty(satOther.idLayer, 'visibility', 'visible');
-        map.setLayoutProperty('BW Satellite', 'visibility', 'none');
-        map.setPaintProperty('Amazon Hole', 'fill-opacity', 0.5);
       }
     };
 
