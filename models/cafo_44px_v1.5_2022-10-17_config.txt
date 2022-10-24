@@ -1,0 +1,36 @@
+Input Data:
+	CAFOS_hand_labeled_2020-06-01_2020-07-01_period_1_method_median_patch_arrays.pkl
+	cafo_negatives_simclr_2020-01-01_2020-02-01_period_1_method_median_patch_arrays.pkl
+	cafo_negatives_simclr_2020-05-01_2020-07-01_period_1_method_median_patch_arrays.pkl
+	CAFOS_p60_2020-01-01_2020-02-01_period_1_method_median_patch_arrays.pkl
+	CAFOS_p60_2020-06-01_2020-07-01_period_1_method_median_patch_arrays.pkl
+	expert_cafo_negatives_2020-01-01_2020-12-01_period_1_method_median_patch_arrays.pkl
+	random_land_high_ndvi_patch_arrays.pkl
+	cafo_v1.1_negatives_2020-01-01_2020-05-01_period_1_method_median_patch_arrays.pkl
+	cafo_negative_cities_2020-01-01_2020-02-01_period_1_method_median_patch_arrays.pkl
+	cafo_v1.4_negatives_2020-01-01_2020-03-01_period_1_method_median_patch_arrays.pkl
+
+
+Augmentation Parameters:
+	featurewise_center: False
+	rotation_range: 360
+	width_shift_range: [0.9, 1.1]
+	height_shift_range: [0.9, 1.1]
+	shear_range: 20
+	zoom_range: [0.8, 1.2]
+	vertical_flip: True
+	horizontal_flip: True
+	fill_mode: reflect
+
+Batch Size: 128
+Training Epochs: 48
+
+Classification Report at 0.8
+              precision    recall  f1-score   support
+
+     No Mine       0.99      0.99      0.99       475
+        Mine       0.99      0.99      0.99       258
+
+    accuracy                           0.99       733
+   macro avg       0.99      0.99      0.99       733
+weighted avg       0.99      0.99      0.99       733

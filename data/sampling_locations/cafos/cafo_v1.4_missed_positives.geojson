@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "cafo_v1",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ -85.23457219748947, 31.116388514124452 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ -85.116522844934579, 30.936833666661592 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ -85.166564686906867, 31.107621641384629 ] } }
+]
+}
